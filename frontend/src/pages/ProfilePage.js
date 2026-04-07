@@ -8,13 +8,13 @@ const ProfilePage = () => {
   const [tempUser, setTempUser] = useState({ name: '', email: '' });
   const [avatarPreview, setAvatarPreview] = useState(null);
   const [newAvatarFile, setNewAvatarFile] = useState(null);
+  const [message, setMessage] = useState({ text: '', type: '' });
 
   const userId = localStorage.getItem('userId');
 
-  // ✅ Wrap in useCallback to safely use in useEffect
+  // Load user from DB
   const loadUser = useCallback(async () => {
     if (!userId) return;
-
     try {
       const res = await axios.get(`http://localhost:5000/api/users/${userId}`);
       const u = res.data;
@@ -33,8 +33,9 @@ const ProfilePage = () => {
 
   useEffect(() => {
     loadUser();
-  }, [loadUser]); // ✅ include loadUser in dependency array
+  }, [loadUser]);
 
+  // Avatar change
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -42,54 +43,73 @@ const ProfilePage = () => {
     setAvatarPreview(URL.createObjectURL(file));
   };
 
-  const handleRemoveAvatar = () => {
-    setAvatarPreview(null);
-    setNewAvatarFile(null);
+  // Remove avatar from DB
+  const handleRemoveAvatar = async () => {
+    if (!userId) return;
+    try {
+      await axios.post(`http://localhost:5000/api/users/upload-profile/${userId}`, null); // null triggers deletion
+      setAvatarPreview(null);
+      setNewAvatarFile(null);
+      await loadUser();
+      setMessage({ text: 'Profile photo removed successfully!', type: 'success' });
+      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
+    } catch (err) {
+      console.error(err);
+      setMessage({ text: 'Failed to remove profile photo.', type: 'error' });
+      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
+    }
   };
 
+  // Save profile
   const handleSave = async () => {
     if (!userId) return;
-
     try {
-      // 1️⃣ Update name and email
       await axios.put(`http://localhost:5000/api/users/update/${userId}`, {
         username: tempUser.name,
         email: tempUser.email,
       });
 
-      // 2️⃣ Upload avatar if a new file is selected
+      // Upload avatar if new file
       if (newAvatarFile) {
         const formData = new FormData();
         formData.append('avatar', newAvatarFile);
-        await axios.post(
-          `http://localhost:5000/api/users/upload-profile/${userId}`,
-          formData,
-          { headers: { 'Content-Type': 'multipart/form-data' } }
-        );
+        await axios.post(`http://localhost:5000/api/users/upload-profile/${userId}`, formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
       } else if (!avatarPreview) {
-        // If avatarPreview is null, user removed avatar
-        await axios.post(
-          `http://localhost:5000/api/users/upload-profile/${userId}`,
-          new FormData() // send empty to remove
-        );
+        // Removed avatar
+        await axios.post(`http://localhost:5000/api/users/upload-profile/${userId}`, null);
       }
 
       await loadUser();
       setEditMode(false);
       setNewAvatarFile(null);
-      alert('Profile updated successfully!');
+      setMessage({ text: 'Profile updated successfully!', type: 'success' });
+      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
     } catch (err) {
       console.error('Failed to save profile:', err);
-      alert('Failed to save profile');
+      setMessage({ text: 'Failed to save profile.', type: 'error' });
+      setTimeout(() => setMessage({ text: '', type: '' }), 3000);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8 relative">
+      {/* Floating Popup Message */}
+      {message.text && (
+        <div
+          className={`absolute top-10 left-1/2 transform -translate-x-1/2 px-6 py-2 rounded-md text-white text-center z-50 transition-all ${
+            message.type === 'success' ? 'bg-green-600/90' : 'bg-red-600/90'
+          }`}
+        >
+          {message.text}
+        </div>
+      )}
+
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-md p-8 space-y-6">
         <h2 className="text-2xl font-bold text-gray-800 text-center">My Profile</h2>
 
-        {/* Avatar */}
+        {/* Avatar Section */}
         <div className="flex flex-col items-center space-y-4">
           <div className="relative group w-28 h-28">
             {avatarPreview ? (

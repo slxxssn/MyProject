@@ -3,7 +3,9 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const db = require('../db');
 const sendEmail = require('../utils/sendEmail');
-const upload = require('../middleware/upload'); // ✅ fixed multer
+const upload = require('../middleware/upload'); // ✅ multer
+const fs = require('fs');
+const path = require('path');
 
 const otpStore = {};
 
@@ -81,7 +83,7 @@ router.post('/login', (req, res) => {
         id: user.id,
         username: user.username,
         email: user.email,
-        profile_image: user.profile_image, // filename
+        profile_image: user.profile_image,
       },
     });
   });
@@ -95,7 +97,7 @@ router.get('/:id', (req, res) => {
     if (err) return res.status(500).json({ message: 'Server error' });
     if (results.length === 0) return res.status(404).json({ message: 'User not found' });
 
-    res.json(results[0]); // returns {id, username, email, profile_image}
+    res.json(results[0]);
   });
 });
 
@@ -111,18 +113,43 @@ router.put('/update/:id', (req, res) => {
   });
 });
 
-// ------------------- UPLOAD PROFILE IMAGE -------------------
+// ------------------- UPLOAD / DELETE PROFILE IMAGE -------------------
 router.post('/upload-profile/:id', upload.single('avatar'), (req, res) => {
   const { id } = req.params;
 
-  if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+  db.query('SELECT profile_image FROM users WHERE id = ?', [id], (err, results) => {
+    if (err) return res.status(500).json({ message: 'Server error' });
 
-  const filename = req.file.filename; // save filename in DB
-  const sql = 'UPDATE users SET profile_image = ? WHERE id = ?';
-  db.query(sql, [filename, id], (err) => {
-    if (err) return res.status(500).json({ message: 'Failed to save image' });
+    const currentImage = results[0]?.profile_image;
 
-    res.json({ message: 'Profile image uploaded successfully', profile_image: filename });
+    // No file sent → delete avatar
+    if (!req.file) {
+      const sql = 'UPDATE users SET profile_image = NULL WHERE id = ?';
+      db.query(sql, [id], (err2) => {
+        if (err2) return res.status(500).json({ message: 'Failed to remove avatar' });
+
+        if (currentImage) {
+          const filePath = path.join(__dirname, '../uploads', currentImage);
+          if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        }
+
+        return res.json({ message: 'Avatar removed successfully', profile_image: null });
+      });
+    } else {
+      // New file uploaded → replace old
+      const filename = req.file.filename;
+      const sql = 'UPDATE users SET profile_image = ? WHERE id = ?';
+      db.query(sql, [filename, id], (err2) => {
+        if (err2) return res.status(500).json({ message: 'Failed to save image' });
+
+        if (currentImage) {
+          const filePath = path.join(__dirname, '../uploads', currentImage);
+          if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        }
+
+        res.json({ message: 'Profile image uploaded successfully', profile_image: filename });
+      });
+    }
   });
 });
 

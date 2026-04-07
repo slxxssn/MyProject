@@ -18,6 +18,8 @@ import CartPage from './pages/CartPage';
 import ProfilePage from './pages/ProfilePage';
 import OrdersPage from './pages/OrdersPage';
 import GoogleSuccessPage from './pages/GoogleSuccessPage';
+import SettingsPage from './pages/SettingsPage'; 
+import AccountPage from './pages/AccountPage'; // ✅ Added AccountPage import
 
 import OTPVerificationPage from './pages/OtpVerificationPage';
 import SetPasswordPage from './pages/SetPasswordPage';
@@ -90,6 +92,10 @@ function App() {
           <Route path="/cart" element={<CartPage cartItems={cartItems} />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/orders" element={<OrdersPage />} />
+
+          {/* Settings & Account pages */}
+          <Route path="/settings" element={<SettingsPage />} /> 
+          <Route path="/settings/account" element={<AccountPage />} /> {/* ✅ Account page route */}
 
           {/* Google login */}
           <Route path="/google-success" element={<GoogleSuccessPage />} />

@@ -1,4 +1,3 @@
-// frontend/src/components/BackForwardButtons.js
 import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
@@ -10,11 +9,13 @@ const BackForwardButtons = () => {
   const [forwardStack, setForwardStack] = useState([]);
 
   useEffect(() => {
-    if (historyStack[historyStack.length - 1] !== location.pathname) {
-      setHistoryStack((prev) => [...prev, location.pathname]);
+    const current = location.pathname + location.search;
+    if (historyStack[historyStack.length - 1] !== current) {
+      setHistoryStack((prev) => [...prev, current]);
       setForwardStack([]);
     }
-  }, [location.pathname]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [location.pathname, location.search]);
 
   const handleBack = () => {
     if (historyStack.length > 1) {

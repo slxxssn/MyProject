@@ -1,11 +1,11 @@
-// frontend/src/pages/SearchResults.js
-import React, { useEffect, useState } from 'react';
+// frontend/src/pages/SearchResultsPage.js
+import React, { useEffect, useState, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { BASE_URL } from '../api';
 import ProductCard from '../components/ProductCard';
 
-const SearchResults = () => {
+const SearchResultsPage = () => {
   const location = useLocation();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,29 +13,42 @@ const SearchResults = () => {
   const [addedProducts, setAddedProducts] = useState([]); // track added products
   const [showLoginToast, setShowLoginToast] = useState(false);
 
-  // Get query string ?q=...
   const queryParams = new URLSearchParams(location.search);
   const query = queryParams.get('q');
 
-  // Simulated login state (replace with your auth state)
-  const [isLoggedIn, setIsLoggedIn] = useState(true); // set false to test login toast
+  const [isLoggedIn] = useState(true); // simulated login
 
-  useEffect(() => {
-    if (query) fetchResults();
-  }, [query]);
-
-  const fetchResults = async () => {
+  // Function to fetch results
+  const fetchResults = useCallback(async () => {
     setLoading(true);
+
+    // Check if saved results exist for this query
+    const saved = sessionStorage.getItem(`search-${query}`);
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      setProducts(parsed);
+      setMessage(parsed.length === 0 ? `No results for "${query}"` : '');
+      setLoading(false);
+      return;
+    }
+
     try {
       const res = await axios.get(`${BASE_URL}/api/products/search?q=${query}`);
       setProducts(res.data);
       setMessage(res.data.length === 0 ? `No results for "${query}"` : '');
+      // Save results to sessionStorage
+      sessionStorage.setItem(`search-${query}`, JSON.stringify(res.data));
     } catch (err) {
       console.error(err);
       setMessage('Failed to fetch search results');
     }
     setLoading(false);
-  };
+  }, [query]);
+
+  // Fetch when query changes
+  useEffect(() => {
+    if (query) fetchResults();
+  }, [query, fetchResults]);
 
   const handleAddToCart = (productId) => {
     if (!isLoggedIn) {
@@ -48,7 +61,6 @@ const SearchResults = () => {
       setAddedProducts([...addedProducts, productId]);
     }
 
-    // TODO: call backend API to add to cart
     console.log('Added to cart:', productId);
   };
 
@@ -84,4 +96,4 @@ const SearchResults = () => {
   );
 };
 
-export default SearchResults;
+export default SearchResultsPage;

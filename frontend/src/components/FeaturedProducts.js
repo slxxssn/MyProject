@@ -43,7 +43,7 @@ const FeaturedProducts = () => {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold text-gray-800">Featured Products</h2>
-      <h2><i><b>Limited time offers on selected items</b></i></h2>
+      <h2><i>Limited time offers on selected items</i></h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
           <ProductCard
