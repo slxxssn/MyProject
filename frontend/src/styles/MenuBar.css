@@ -1,0 +1,49 @@
+/* frontend/src/styles/MenuBar.css */
+.menu-container {
+  position: fixed;
+  top: 15px;
+  left: 20px;
+  z-index: 1000;
+  font-family: Arial, sans-serif;
+}
+
+.menu-button {
+  background-color: #1b263b;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 5px;
+  cursor: pointer; /* ✅ shows hand on hover */
+  user-select: none;
+  font-weight: bold;
+}
+
+.menu-button:hover {
+  background-color: #415a77;
+}
+
+.menu-dropdown {
+  margin-top: 5px;
+  background-color: #1b263b;
+  border-radius: 5px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 150px;
+}
+
+.menu-dropdown div {
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer; /* ✅ shows hand over each option */
+}
+
+.menu-dropdown div:hover {
+  background-color: #415a77;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.menu-icon {
+  vertical-align: middle;
+  margin-right: 5px;
+}

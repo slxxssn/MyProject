@@ -1,0 +1,75 @@
+/* frontend/src/styles/BackForwardButtons.css */
+
+/* Container for back/forward buttons */
+.back-forward-container {
+  display: flex;
+  justify-content: space-between;  
+  align-items: center;
+  padding: 5px 15px;               
+  position: fixed;                  
+  top: 60px;             /* adjust based on header height */
+  left: 0;
+  right: 0;
+  z-index: 999;          /* above header so it’s always visible */
+  background-color: transparent;    
+  box-shadow: none;
+}
+
+/* Buttons styling */
+.back-forward-container button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 4px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  min-width: 60px;
+  text-align: center;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Hover effect */
+.back-forward-container button:hover {
+  background-color: #0056b3;
+  transform: translateY(-1px);
+}
+
+/* Disabled buttons */
+.back-forward-container button:disabled {
+  background-color: #c0c0c0;
+  cursor: default;   /* <-- change from not-allowed to default */
+  transform: none;
+}
+
+/* Separate left/right pointing triangles */
+.back-forward-container button:first-child::before {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-right: 6px solid white; /* left-pointing triangle */
+  margin-right: 5px;
+}
+
+.back-forward-container button:last-child::after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 6px solid white; /* right-pointing triangle */
+  margin-left: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .back-forward-container button {
+    padding: 3px 8px;
+    font-size: 10px;
+    min-width: 50px;
+  }
+}

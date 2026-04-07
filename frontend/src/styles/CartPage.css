@@ -1,0 +1,29 @@
+.cart-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.cart-page-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1f2937; /* dark gray */
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.cart-page-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+/* optional responsive grid for future multi-column cart items */
+@media (min-width: 768px) {
+  .cart-page-content {
+    grid-template-columns: 1fr;
+  }
+}

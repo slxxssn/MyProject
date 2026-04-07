@@ -1,0 +1,25 @@
+/* Page Container */
+.orders-page {
+  min-height: 80vh;
+  padding: 20px;
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Page Title */
+.orders-page-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 30px;
+  text-shadow: 1px 1px 5px rgba(0,0,0,0.5);
+}
+
+/* Orders Container Wrapper */
+.orders-page-content {
+  width: 100%;
+  max-width: 1200px;
+}

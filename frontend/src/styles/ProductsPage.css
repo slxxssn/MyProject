@@ -1,0 +1,52 @@
+/* frontend/src/styles/ProductsPage.css */
+
+/* Container for the Products Page */
+.products-page {
+  min-height: 80vh;
+  padding: 20px;
+  background: linear-gradient(to right, #0f2027, #203a43, #2c5364);
+  color: #fff;
+}
+
+/* Slide-in login message */
+.login-slide-message {
+  position: fixed;
+  top: 70px; /* adjust to align with profile menu */
+  right: -300px; /* start off-screen */
+  background: #ff6f61;
+  padding: 15px 25px;
+  border-radius: 12px;
+  color: #fff;
+  font-weight: 600;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+  animation: slideInOut 3s forwards; /* 3s total, auto-hide */
+}
+
+/* Slide in from right, pause, then slide out */
+@keyframes slideInOut {
+  0% {
+    right: -300px;
+    opacity: 0;
+  }
+  10% {
+    right: 20px;
+    opacity: 1;
+  }
+  80% {
+    right: 20px;
+    opacity: 1;
+  }
+  100% {
+    right: -300px;
+    opacity: 0;
+  }
+}
+
+/* Optional: adjust message font size for mobile */
+@media (max-width: 768px) {
+  .login-slide-message {
+    font-size: 0.9rem;
+    padding: 12px 20px;
+  }
+}

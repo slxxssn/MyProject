@@ -1,0 +1,162 @@
+/* ================= GLOBAL SHARED ================= */
+
+.error-msg {
+  color: #ff4d4d;
+  margin-bottom: 10px;
+  font-size: 0.9rem;
+}
+
+/* Divider (used in both pages) */
+.divider {
+  margin: 20px 0;
+  position: relative;
+  text-align: center;
+}
+
+.divider span {
+  background: #1f1f1f;
+  padding: 0 10px;
+  color: #aaa;
+  font-size: 0.9rem;
+}
+
+.divider::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #444;
+  z-index: -1;
+}
+
+/* Google button (shared) */
+.google-btn {
+  width: 100%;
+  padding: 12px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.google-btn:hover {
+  background: #e0e0e0;
+  transform: translateY(-3px);
+}
+
+
+/* ================= REGISTER ================= */
+
+.register-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  background: #1f1f1f;
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  font-family: 'Arial', sans-serif;
+}
+
+.register-container h2 {
+  margin-bottom: 20px;
+  color: #ffb800;
+}
+
+.register-container input {
+  width: 100%;
+  padding: 14px;
+  margin: 20px 0;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+/* Primary button (Continue) */
+.primary-btn {
+  width: 100%;
+  padding: 12px;
+  background: #ffb800;
+  border: none;
+  border-radius: 6px;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.primary-btn:hover {
+  background: #ffdb4d;
+  transform: translateY(-3px);
+}
+
+
+/* ================= LOGIN ================= */
+
+.login-container {
+  max-width: 400px;
+  margin: 80px auto;
+  padding: 30px;
+  background: #1f1f1f;
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0,0,0,0.5);
+  font-family: 'Arial', sans-serif;
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  color: #ffb800;
+}
+
+.login-container input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+}
+
+.login-container button {
+  width: 100%;
+  padding: 12px;
+  background: #ffb800;
+  border: none;
+  border-radius: 6px;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.login-container button:hover {
+  background: #ffdb4d;
+  transform: translateY(-3px);
+}
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 768px) {
+  .register-container,
+  .login-container {
+    margin: 40px 15px;
+    padding: 20px;
+  }
+
+  .primary-btn,
+  .google-btn,
+  .login-container button {
+    font-size: 0.9rem;
+    padding: 10px;
+  }
+}

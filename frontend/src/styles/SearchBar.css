@@ -1,0 +1,69 @@
+/* Container for the search form */
+.search-bar-form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #1b263b; /* matches profile circle */
+  padding: 5px 10px;
+  border-radius: 25px;
+  max-width: 350px;
+  margin: 0 auto;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+  transition: box-shadow 0.3s ease;
+}
+
+.search-bar-form:hover {
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* Input field */
+.search-bar-form input {
+  flex: 1;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+  background-color: #162032; /* slightly darker */
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.search-bar-form input::placeholder {
+  color: #a0a0a0;
+}
+
+/* Button */
+.search-bar-form button {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 20px;
+  background-color: #007bff;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.search-bar-form button:hover {
+  background-color: #0056b3;
+  transform: scale(1.05);
+}
+
+/* Responsive for small screens */
+@media (max-width: 500px) {
+  .search-bar-form {
+    max-width: 90%;
+    gap: 5px;
+  }
+
+  .search-bar-form input {
+    font-size: 13px;
+    padding: 6px 10px;
+  }
+
+  .search-bar-form button {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+}

@@ -1,0 +1,86 @@
+/* Container: fixed top-right */
+.profile-container {
+  position: fixed;
+  top: 15px;
+  right: 20px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+/* Profile circle + greeting */
+.profile-circle-greeting {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(to right, #1b263b, #415a77); /* subtle gradient for classy look */
+  color: #fff;
+  padding: 5px 12px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 14px;
+  transition: background 0.3s, transform 0.2s;
+}
+
+.profile-circle-greeting:hover {
+  background: linear-gradient(to right, #415a77, #1b263b);
+  transform: scale(1.05);
+}
+
+.profile-circle-greeting .material-icons {
+  font-size: 24px;
+}
+
+/* Dropdown */
+.profile-dropdown {
+  margin-top: 5px;
+  background: rgba(27, 38, 59, 0.95);
+  backdrop-filter: blur(8px); /* classy blur */
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-width: 160px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.25);
+  animation: dropdownFade 0.25s ease forwards;
+}
+
+/* Dropdown items */
+.profile-dropdown div {
+  color: #fff;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.profile-dropdown div:hover {
+  background-color: #0077cc;
+  color: #fff;
+}
+
+/* Dropdown animation */
+@keyframes dropdownFade {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .profile-circle-greeting {
+    padding: 4px 10px;
+    font-size: 13px;
+  }
+
+  .profile-dropdown {
+    min-width: 140px;
+  }
+
+  .profile-dropdown div {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
